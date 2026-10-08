@@ -1,0 +1,454 @@
+/* ================================================================== */
+/*  Estimate Calculator – Public Styles                               */
+/* ================================================================== */
+
+.ec-calculator {
+    --ec-primary: #3a8ea8;
+    --ec-secondary: #2c3e50;
+    --ec-btn-text: #ffffff;
+    --ec-border: #a9b3c6;
+    --ec-bg: #ffffff;
+    --ec-radius: 8px;
+
+    font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 30px;
+    background: var(--ec-bg);
+    border-radius: var(--ec-radius);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+}
+
+/* ---- Progress Bar ---- */
+.ec-progress {
+    height: 6px;
+    background: #e9ecef;
+    border-radius: 3px;
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+.ec-progress-bar {
+    height: 100%;
+    background: var(--ec-primary);
+    border-radius: 3px;
+    transition: width 0.4s ease;
+}
+
+/* ---- Steps ---- */
+.ec-step {
+    display: none;
+}
+.ec-step.active {
+    display: block;
+    animation: ecFadeIn 0.3s ease;
+}
+@keyframes ecFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.ec-step h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ec-secondary);
+    margin: 0 0 24px;
+    text-align: center;
+}
+.ec-section-heading {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ec-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--ec-primary);
+    padding-bottom: 6px;
+    margin: 24px 0 16px;
+}
+.ec-note {
+    font-size: 0.85rem;
+    color: #6c757d;
+    font-style: italic;
+    margin: 8px 0 0;
+}
+.ec-form-disclaimer {
+    margin-top: 16px;
+    padding: 12px 14px;
+    background: #f8f9fa;
+    border-left: 3px solid var(--ec-primary);
+    border-radius: 4px;
+    font-size: 0.85rem;
+    color: #495057;
+    line-height: 1.5;
+}
+.ec-form-disclaimer p { margin: 0; }
+.ec-thank-heading {
+    font-size: 2rem !important;
+    margin: 0 0 8px !important;
+}
+.ec-thank-sub {
+    font-size: 1.05rem;
+    color: #6c757d;
+    margin: 0 0 28px;
+}
+.ec-asterisk {
+    color: var(--ec-primary);
+    font-size: 1.2rem;
+    align-self: flex-start;
+    font-weight: 700;
+}
+
+/* ---- Service Selection Grid ---- */
+.ec-service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+.ec-service-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 24px 16px;
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: var(--ec-radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ec-secondary);
+    font-family: inherit;
+}
+.ec-service-card:hover {
+    border-color: var(--ec-primary);
+    background: #f0f7fa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.ec-service-card img {
+    width: 100%;
+    max-width: 160px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+.ec-service-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--ec-primary);
+    opacity: 0.2;
+}
+
+/* ---- Form Fields ---- */
+.ec-field {
+    margin-bottom: 20px;
+}
+.ec-field label {
+    display: block;
+    font-weight: 600;
+    color: var(--ec-secondary);
+    margin-bottom: 6px;
+    font-size: 0.95rem;
+}
+.ec-field label small {
+    font-weight: 400;
+    color: #6c757d;
+}
+.ec-field input[type="text"],
+.ec-field input[type="email"],
+.ec-field input[type="tel"],
+.ec-field input[type="number"],
+.ec-field select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--ec-border);
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: inherit;
+    color: #000;
+    background: #fff;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+.ec-field input:focus,
+.ec-field select:focus {
+    outline: none;
+    border-color: var(--ec-primary);
+    box-shadow: 0 0 0 3px rgba(58, 142, 168, 0.15);
+}
+.ec-field input::placeholder {
+    color: #8c8c8c;
+}
+
+/* Checkbox group */
+.ec-checkbox-group {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.ec-checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    cursor: pointer;
+}
+.ec-checkbox-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--ec-primary);
+}
+
+/* Consent */
+.ec-consent label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-weight: 400;
+    font-size: 0.85rem;
+    color: #6c757d;
+    line-height: 1.4;
+}
+.ec-consent input[type="checkbox"] {
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+.ec-consent a {
+    color: var(--ec-primary);
+}
+
+.ec-req {
+    color: #e74c3c;
+}
+
+/* ---- Buttons ---- */
+.ec-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+.ec-btn {
+    padding: 14px 28px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+.ec-btn-next,
+.ec-btn-submit {
+    background: var(--ec-primary);
+    color: var(--ec-btn-text);
+    flex: 1;
+}
+.ec-btn-next:hover,
+.ec-btn-submit:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+.ec-btn-back {
+    background: #e9ecef;
+    color: var(--ec-secondary);
+}
+.ec-btn-back:hover {
+    background: #dee2e6;
+}
+.ec-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ---- Error & Loading ---- */
+.ec-error {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: #fdf0f0;
+    border: 1px solid #e74c3c;
+    border-radius: 5px;
+    color: #c0392b;
+    font-size: 0.9rem;
+}
+.ec-loading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 16px;
+    color: var(--ec-primary);
+    font-weight: 500;
+}
+.ec-spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid #e9ecef;
+    border-top-color: var(--ec-primary);
+    border-radius: 50%;
+    animation: ecSpin 0.6s linear infinite;
+}
+@keyframes ecSpin {
+    to { transform: rotate(360deg); }
+}
+
+/* ================================================================== */
+/*  Thank-You Page                                                     */
+/* ================================================================== */
+.ec-thankyou {
+    font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+.ec-estimate-result {
+    text-align: center;
+    padding: 40px 30px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    margin-bottom: 30px;
+}
+.ec-service-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ec-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 8px;
+}
+.ec-estimate-result h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--ec-secondary);
+    margin: 0 0 30px;
+}
+
+.ec-range-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+.ec-range-low,
+.ec-range-high {
+    text-align: center;
+}
+.ec-range-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+.ec-range-value {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--ec-primary);
+}
+.ec-range-separator {
+    font-size: 2rem;
+    color: #ccc;
+}
+.ec-disclaimer {
+    font-size: 0.85rem;
+    color: #999;
+    margin: 0;
+}
+
+.ec-booking-section {
+    text-align: center;
+    margin-top: 30px;
+}
+.ec-booking-section h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--ec-secondary);
+    margin: 0 0 8px;
+}
+.ec-booking-section p {
+    color: #6c757d;
+    margin: 0 0 20px;
+}
+.ec-calendar-embed {
+    border-radius: 12px;
+    overflow: visible;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+}
+.ec-calendar-embed iframe {
+    display: block;
+}
+/* Custom iframe / embed container — ensure nested iframe/widget fills width */
+.ec-custom-embed {
+    width: 100%;
+    min-height: 400px;
+}
+.ec-custom-embed > iframe,
+.ec-custom-embed iframe {
+    width: 100%;
+    border: 0;
+    display: block;
+}
+
+/* Fallback CTA button (shown when no calendar is configured) */
+.ec-cta-section {
+    padding: 30px 24px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+}
+.ec-btn-cta {
+    display: inline-block;
+    background: var(--ec-primary);
+    color: var(--ec-btn-text);
+    padding: 16px 32px;
+    border-radius: 6px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+}
+.ec-btn-cta:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+    color: var(--ec-btn-text);
+    text-decoration: none;
+}
+
+/* Standalone [estimate_calendar] shortcode wrapper */
+.ec-standalone-calendar {
+    font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.ec-standalone-calendar .ec-calendar-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.ec-standalone-calendar .ec-calendar-header h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0 0 6px;
+}
+.ec-standalone-calendar .ec-calendar-header p {
+    color: #6c757d;
+    margin: 0;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 600px) {
+    .ec-calculator { padding: 20px 16px; }
+    .ec-service-grid { grid-template-columns: 1fr; }
+    .ec-range-display { flex-direction: column; gap: 12px; }
+    .ec-range-separator { display: none; }
+    .ec-range-value { font-size: 1.8rem; }
+    .ec-actions { flex-direction: column; }
+}

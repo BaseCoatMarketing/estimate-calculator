@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estimate Calculator — Embed Example</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #f5f7fa; margin: 0; padding: 40px 20px; }
+        .page-wrap { max-width: 900px; margin: 0 auto; }
+        .page-wrap > h1 { text-align: center; color: #2c3e50; margin-bottom: 10px; }
+        .page-wrap > p { text-align: center; color: #6c757d; margin-bottom: 40px; }
+    </style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+    <h1>Get Your Free Estimate</h1>
+    <p>Answer a few quick questions and we'll give you an estimated range.</p>
+
+    <!-- ============================================================ -->
+    <!-- The only required element: a container for the widget        -->
+    <!-- ============================================================ -->
+    <div id="my-estimate-calc"></div>
+
+</div>
+
+<!-- ================================================================ -->
+<!--  1. Load the widget script                                       -->
+<!-- ================================================================ -->
+<script src="https://procoatpaintingsandiego.com/estimate-calculator.js?v=2"></script>
+
+<!-- ================================================================ -->
+<!--  2. Initialize with your configuration                           -->
+<!-- ================================================================ -->
+<script>
+EstimateCalculator.init({
+
+    // Where to render the widget
+    container: '#my-estimate-calc',
+
+    // Backend endpoint — where to POST submissions
+    // Option A: Standalone PHP proxy (for any site)
+    //endpoint: 'https://basecoatmarketing.com/estimate/dist/proxy.php',
+
+    // Option B: WordPress AJAX (when widget is on the same WP site as the plugin)
+    // endpoint: 'https://wp-site.com/wp-admin/admin-ajax.php',
+    // nonce:    'GENERATED_NONCE',  // required for WP
+    // action:   'ec_submit',
+
+    // Option C: WordPress REST API (recommended for external non-PHP sites)
+    // The widget fetches config from the WP plugin and submits there too.
+    // Generate the siteToken in WP admin → Estimate Calc → External Sites
+     wpRestUrl:   'https://procoatpaintingsandiego.com/wp-json/ec/v1',
+     siteToken:   'qL0SgwywduvibC5VDC4v_mnmoA9UPx8T',
+     fetchConfig: true,
+     lpVariant:   'landingpage_b',          // pull pricing/labels/services from WP at init
+    // (endpoint is auto-set to wpRestUrl + '/submit')
+    userOverrides: {
+            colors: {
+                primary:    '#ea1a21',
+                secondary:  '#0d2233',
+                buttonText: '#ffffff'
+            }
+        },
+    // Which built-in services to offer
+    services: ['interior', 'exterior', 'cabinet'],
+
+    // ----------------------------------------------------------------
+    //  Custom services — ADD-ONS beyond Interior / Exterior / Cabinet.
+    //  Each card appears on the service-selection step alongside the
+    //  built-ins. Calculation defaults to:
+    //      total = sqft × pricePerSqft  → ±rangePct%
+    //  Toggle pricePerSqftEnabled / conditionEnabled to change the model.
+    //
+    //  Set enabled:false to keep a definition here without showing it.
+    //  Or remove `fetchConfig: true` from this widget to use these
+    //  inline definitions instead of pulling from WP REST.
+    // ----------------------------------------------------------------
+    customServices: [
+
+        // ────────── Example 1 ──────────
+        // Per-sq-ft service WITH a 4-tier condition multiplier
+        {
+            slug:      'deck-staining',
+            label:     'Deck Staining',
+            image:     'https://yourcdn.com/deck.jpg',
+            enabled:   false,                 // flip to true to enable
+
+            pricePerSqftEnabled: true,
+            pricePerSqft:        3.50,        // $3.50 / sq ft
+            priceMultiplier:     0,           // unused when sqft mode is on
+            fieldLabel:          '',          // empty → field labeled "Square Footage"
+
+            rangePct: 25,                     // shows result as total ± 25%
+
+            conditionEnabled: true,
+            conditions: [
+                { slug: 'like_new',      label: 'Like New',      multiplier: 1.0 },
+                { slug: 'light_wear',    label: 'Light Wear',    multiplier: 1.1 },
+                { slug: 'moderate_wear', label: 'Moderate Wear', multiplier: 1.2 },
+                { slug: 'heavy_wear',    label: 'Heavy Wear',    multiplier: 1.3 }
+            ],
+            customQuestions: []
+        },
+
+        // ────────── Example 2 ──────────
+        // Quantity-based service (multiplier mode, no condition)
+        //   total = number of items × priceMultiplier
+        {
+            slug:      'pressure-washing',
+            label:     'Pressure Washing',
+            image:     'https://yourcdn.com/pressure.jpg',
+            enabled:   false,
+
+            pricePerSqftEnabled: false,       // turn OFF sqft mode
+            pricePerSqft:        0,
+            priceMultiplier:     150,         // $150 per "area"
+            fieldLabel:          'Number of Areas',
+
+            rangePct: 20,
+
+            conditionEnabled: false,          // no condition dropdown
+            conditions: [],
+            customQuestions: []
+        },
+
+        // ────────── Example 3 ──────────
+        // Quantity-based service WITH condition — condition multiplier
+        // BECOMES the per-unit rate (priceMultiplier is bypassed).
+        //   total = number of rooms × condition multiplier
+        // Set condition multipliers to whole-dollar amounts (e.g. 500).
+        {
+            slug:      'wallpaper-removal',
+            label:     'Wallpaper Removal',
+            image:     'https://yourcdn.com/wallpaper.jpg',
+            enabled:   false,
+
+            pricePerSqftEnabled: false,
+            pricePerSqft:        0,
+            priceMultiplier:     0,           // bypassed when condition is on
+            fieldLabel:          'Number of Rooms',
+
+            rangePct: 30,
+
+            conditionEnabled: true,
+            conditions: [
+                { slug: 'light',  label: 'Light Adhesive',  multiplier: 250  },
+                { slug: 'medium', label: 'Medium Adhesive', multiplier: 400  },
+                { slug: 'heavy',  label: 'Heavy / Layered', multiplier: 650  }
+            ],
+            customQuestions: [
+                // Optional per-service questions that adjust the subtotal.
+                // Yes/No example — adds $250 when user picks Yes.
+                // {
+                //     slug:      'has_borders',
+                //     label:     'Does it have decorative borders?',
+                //     type:      'yesno',
+                //     enabled:   true,
+                //     yes_value: 250,
+                //     no_value:  0,
+                //     op:        'add'      // 'add' or 'multiply'
+                // },
+                // Number example — adds count × $35 per extra coat.
+                // {
+                //     slug:       'extra_coats',
+                //     label:      'How many extra coats?',
+                //     type:       'number',
+                //     enabled:    true,
+                //     unit_value: 35
+                // }
+            ]
+        }
+
+    ],
+
+    // Text labels (fully customizable per client)
+    labels: {
+        heading:  'What type of estimate do you need?',
+        interior: 'Interior Painting',
+        exterior: 'Exterior Painting',
+        cabinet:  'Cabinet Painting'
+    },
+
+    // Service card images (optional)
+    images: {
+        interior: 'https://basecoatmarketing.com/estimate/dist/img/interior_9-5.jpg',
+        exterior: 'https://basecoatmarketing.com/estimate/dist/img/iStock-163206561.jpg',
+        cabinet:  'https://basecoatmarketing.com/estimate/dist/img/iStock-532610829.jpg'
+    },
+
+    // Brand colors
+    colors: {
+      primary:    '#e5f3ff',
+      secondary:  '#74b4ac',
+        buttonText: '#ffffff',
+        border:     '#a9b3c6'
+    },
+
+    // GHL booking calendar shown after submission.
+    // Set calendarEnabled to false (or leave both calendar fields empty) to skip
+    // the calendar and show the fallback CTA button instead.
+    calendar:        'https://link.yourdomain.com/widget/booking/YOUR_CAL_ID',
+    calendarEnabled: false,
+
+    // OPTIONAL — Custom iframe / embed code (Calendly, Acuity, etc.)
+    // When set, this OVERRIDES the GHL `calendar` URL above.
+    // Paste raw HTML — typically the <iframe>...</iframe> snippet from your provider.
+    calendarCustomHtml: '',
+    // Example:
+    // calendarCustomHtml: '<iframe src="https://calendly.com/your-link" width="100%" height="700" frameborder="0"></iframe>',
+
+    // Fallback CTA button — only renders when there's no calendar
+    cta: {
+        label:  'Schedule Your Estimate',
+        url:    'https://cabinetpainter.ca/estimate/',
+        newTab: false
+    },
+
+    // Tracking pixel (fires on submission)
+    pixel: {
+        type: 'facebook',                // facebook | google | tiktok | custom | none
+        id:   '1234567890',              // your pixel ID
+        customCode: ''                   // optional raw HTML for type: 'custom'
+    },
+
+    // SMS consent / legal — use {phone} placeholder; it's swapped for helpPhone at render time.
+    // If helpPhone is empty, the "Text HELP to..." sentence is removed automatically.
+    consent: {
+        smsText:    'I consent to receive SMS notifications, alerts, and occasional marketing messages from the company. Message frequency varies. Message and data rates may apply. Text HELP to {phone} for assistance. Reply STOP at any time to unsubscribe.',
+        helpPhone:  '403-971-4434',
+        privacyUrl: 'https://cabinetpainter.ca/policies/privacy-policy/'
+    },
+
+    // Disclaimers
+    disclaimers: {
+        form:    'This calculator provides a ballpark estimate based on your inputs. Final pricing will be confirmed after an on-site or virtual walkthrough. For the most accurate quote, schedule a free estimate with our team.',
+        results: 'This calculator provides a ballpark estimate based on your inputs. Final pricing will be confirmed after an on-site or virtual walkthrough.'
+    },
+
+    // Business info — powers Google Online Estimate JSON-LD schema
+    // (Service + QuoteAction + Offer + PriceSpecification + LocalBusiness)
+    business: {
+        enabled:     true,  // set false to disable schema output
+        type:        'HousePainter',  // Schema.org type: HomeAndConstructionBusiness, HousePainter, Plumber, etc.
+        name:        'Distinctively Painting',
+        phone:       '+1 403-971-4434',
+        email:       'info@distinctivelypaint.com',
+        url:         'https://cabinetpainter.ca',
+        logo:        'https://cabinetpainter.ca/wp-content/uploads/2024/02/logo_dark-resized.png',
+        street:      '4632 1st St SE',
+        city:        'Calgary',
+        region:      'AB',
+        postal:      'T2G 2L3',
+        country:     'CA',
+        areaServed:  'Calgary',
+        currency:    'CAD'
+    },
+
+    // Square footage ranges (fully editable per client)
+    sqft: {
+        interior: {
+            small:      [40, 80],
+            medium:     [100, 150],
+            large:      [200, 300],
+            xlarge:     [300, 500],
+            xlargeOpen: false            // appends "+" to the largest range label
+        },
+        exterior: {
+            small:     [1000, 1500],
+            medium:    [1600, 2800],
+            large:     [2900, 4000],
+            largeOpen: false   // appends "+" to the largest range label
+        }
+    },
+
+    // ================================================================
+    //  PRICING — This is where each client's numbers go
+    // ================================================================
+    pricing: {
+
+        interior: {
+            smallRoom:    200,
+            mediumRoom:   400,
+            largeRoom:    600,
+            xlargeRoom:   900,
+            entryDoor:    50,    // garage / backyard / front (priced higher than closet doors)
+            closetDoor:   50,
+            ceilingMult:  0.1,
+            trimMult:     0.1,
+            condition: {
+                like_new:      1.0,
+                light_wear:    1.0,
+                moderate_wear: 1.1,
+                heavy_wear:    1.3
+            },
+            rangePct: 35,  // Final range: total ±25%
+
+            // Custom questions that alter the calc — example shown.
+            //   yesno  → { type:'yesno',  yes_value, no_value, op:'add'|'multiply' }
+            //   number → { type:'number', unit_value }
+            customQuestions: [
+                // { enabled: true, slug: 'french_doors', label: 'Do you have French doors?',
+                //   type: 'yesno', op: 'add', yes_value: 500, no_value: 0 },
+                // { enabled: true, slug: 'crown_molding_pieces', label: 'How many pieces of crown molding?',
+                //   type: 'number', unit_value: 35 }
+            ]
+        },
+
+        exterior: {
+            base: {
+                small:  2500,
+                medium: 4500,
+                large:  7000
+            },
+            // Materials: toggle enabled, edit labels/multipliers, or add custom entries.
+            // Only entries with enabled:true appear in the front-end dropdown.
+            materials: [
+                { slug: 'wood',     label: 'Wood',         multiplier: 1.1,  enabled: true },
+                { slug: 'stucco',   label: 'Stucco',       multiplier: 1.05, enabled: true },
+                { slug: 'brick',    label: 'Brick',        multiplier: 1.05,  enabled: true },
+                { slug: 'aluminum', label: 'Aluminum',     multiplier: 1.1,  enabled: false }, // disabled example
+                { slug: 'laminate', label: 'Laminate',     multiplier: 1.1,  enabled: true }
+
+            ],
+            singleGarage: 150,
+            doubleGarage: 300,
+            shutter:      40,     // per-unit cost (count × this)
+            trimMult:     0.15,
+            gutterMult:   0.05,
+            condition: {
+                like_new:      1.0,
+                light_wear:    1.0,
+                moderate_wear: 1.1,
+                heavy_wear:    1.35
+            },
+            rangePct: 40,  // Final range: total ±25%
+            customQuestions: []
+        },
+
+        cabinet: {
+            base:    350,
+            door:    175,
+            drawer:  175,
+            island:  0,
+            condition: {
+                like_new:      1.0,
+                light_wear:    1.0,
+                moderate_wear: 1.0,
+                heavy_wear:    1.1
+            },
+            rangePct: 20,  // Final range: total ±25%
+            customQuestions: []
+        }
+
+    },
+
+    // Optional callbacks — fire at each stage
+    onSubmit:  function(data, estimate) {
+        console.log('User submitted:', data, 'Estimate:', estimate);
+    },
+    onResults: function(estimate) {
+        console.log('Results displayed:', estimate);
+    },
+    onError:   function(msg) {
+        console.warn('Error:', msg);
+    }
+
+});
+</script>
+
+</body>
+</html>

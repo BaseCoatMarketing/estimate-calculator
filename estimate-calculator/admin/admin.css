@@ -1,0 +1,168 @@
+.ec-admin-wrap {
+    max-width: 900px;
+    /* Ensure WordPress' "Thank you for creating with WordPress" footer
+       (#wpfooter) never overlaps form fields or the Save button on
+       longer tabs (External Sites, Lead Tracking, Custom Services). */
+    padding-bottom: 80px;
+}
+
+/* Belt-and-suspenders: also push #wpfooter down on plugin settings page */
+.toplevel_page_estimate-calculator #wpfooter {
+    position: static;
+}
+.toplevel_page_estimate-calculator #wpbody-content {
+    padding-bottom: 80px;
+}
+
+/* Tabs */
+.ec-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    border-bottom: 2px solid #0073aa;
+    margin: 20px 0 0;
+}
+.ec-tab {
+    padding: 10px 18px;
+    text-decoration: none;
+    color: #23282d;
+    background: #f1f1f1;
+    border: 1px solid #ccd0d4;
+    border-bottom: none;
+    margin-bottom: -2px;
+    border-radius: 4px 4px 0 0;
+    font-weight: 500;
+}
+.ec-tab:hover { background: #fff; }
+.ec-tab.active {
+    background: #fff;
+    border-bottom: 2px solid #fff;
+    color: #0073aa;
+}
+
+/* Tab content */
+.ec-tab-content {
+    display: none;
+    padding: 20px 0;
+}
+.ec-tab-content.active { display: block; }
+
+.ec-tab-content .form-table input[type="number"] {
+    width: 120px;
+}
+
+/* Materials repeater */
+.ec-materials-table {
+    margin-top: 4px;
+}
+.ec-materials-table th {
+    font-weight: 600;
+    background: #f5f5f5;
+}
+.ec-materials-table td input[type="text"],
+.ec-materials-table td input[type="number"] {
+    width: 100%;
+    max-width: 100%;
+}
+.ec-materials-table tr.ec-material-row input[type="checkbox"] {
+    margin: 0 auto;
+    display: block;
+}
+.ec-materials-table .ec-remove-material {
+    color: #b32d2e;
+    border-color: #b32d2e;
+}
+.ec-materials-table .ec-remove-material:hover {
+    background: #b32d2e;
+    color: #fff;
+}
+
+/* Site Tokens (REST API) */
+.ec-site-tokens-table { margin-top: 4px; }
+.ec-site-tokens-table th { background: #f5f5f5; font-weight: 600; }
+.ec-site-tokens-table td { padding: 12px 10px; vertical-align: top; }
+.ec-site-tokens-table .ec-remove-site-token {
+    color: #b32d2e;
+    border-color: #b32d2e;
+}
+.ec-site-tokens-table .ec-remove-site-token:hover {
+    background: #b32d2e;
+    color: #fff;
+}
+
+/* Conditions repeater inside each custom service */
+.ec-service-conditions-table { margin-top: 4px; }
+.ec-service-conditions-table th { background: #f5f5f5; font-weight: 600; }
+.ec-service-conditions-table td { padding: 8px 10px; }
+.ec-service-conditions-table .ec-remove-service-condition {
+    color: #b32d2e;
+    border-color: #b32d2e;
+}
+.ec-service-conditions-table .ec-remove-service-condition:hover {
+    background: #b32d2e;
+    color: #fff;
+}
+
+/* Custom Services repeater */
+.ec-custom-services-table { margin-top: 4px; }
+.ec-custom-services-table th { background: #f5f5f5; font-weight: 600; }
+.ec-custom-services-table td { vertical-align: top; padding: 12px 10px; }
+.ec-custom-services-table .ec-custom-service-row input[type="checkbox"] {
+    margin: 0 auto;
+    display: block;
+}
+.ec-custom-services-table .ec-remove-custom-service {
+    color: #b32d2e;
+    border-color: #b32d2e;
+}
+.ec-custom-services-table .ec-remove-custom-service:hover {
+    background: #b32d2e;
+    color: #fff;
+}
+
+/* Custom Questions repeater */
+.ec-questions-table {
+    margin-top: 4px;
+}
+.ec-questions-table th {
+    background: #f5f5f5;
+    font-weight: 600;
+}
+.ec-questions-table td {
+    vertical-align: top;
+    padding: 12px 10px;
+}
+.ec-questions-table .ec-question-row input[type="checkbox"] {
+    margin: 0 auto;
+    display: block;
+}
+.ec-questions-table .ec-remove-question {
+    color: #b32d2e;
+    border-color: #b32d2e;
+}
+.ec-questions-table .ec-remove-question:hover {
+    background: #b32d2e;
+    color: #fff;
+}
+
+/* Avada-aware color picker */
+.ec-color-picker {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.ec-color-picker .ec-avada-select {
+    min-width: 220px;
+}
+.ec-color-picker .ec-color-visual {
+    width: 50px;
+    height: 36px;
+    padding: 2px;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.ec-color-picker .ec-color-visual:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}

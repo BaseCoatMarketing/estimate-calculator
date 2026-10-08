@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "static",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8753", "--directory", "/Volumes/Datos/davidledesma/Documents/Claude/Projects/Estimate calculator V2/estimate-calculator/widget"],
+      "port": 8753
+    }
+  ]
+}
