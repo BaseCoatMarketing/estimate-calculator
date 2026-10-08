@@ -22,7 +22,8 @@
       "Bash(ssh -i ~/.ssh/KintivoIT-GitHub -T git@github.com)",
       "Bash(ssh -vT git@github.com)",
       "Bash(curl -sI https://github.com/BaseCoatMarketing/estimate-calculator)",
-      "Bash(git -c user.email=\"ledavid71@gmail.com\" -c user.name=\"David Ledesma\" commit -m \"Custom services: add multi-question custom-questions repeater \\(v1.19.0\\)\")"
+      "Bash(git -c user.email=\"ledavid71@gmail.com\" -c user.name=\"David Ledesma\" commit -m \"Custom services: add multi-question custom-questions repeater \\(v1.19.0\\)\")",
+      "Bash(git -c user.email=\"ledavid71@gmail.com\" -c user.name=\"David Ledesma\" commit -m \"Fix custom-service questions leaking into other tabs \\(nested <script> templates\\)\")"
     ]
   }
 }

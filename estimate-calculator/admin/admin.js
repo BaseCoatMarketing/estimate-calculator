@@ -363,13 +363,23 @@
 
     $(document).on('click', '.ec-add-question', function(e) {
         e.preventDefault();
-        var service = $(this).data('service');
-        var tpl     = $('#ec-question-row-template-' + service).html();
-        var idx     = nextQuestionIndex(service);
-        // Replace __QINDEX__ first (custom-service tables use this to avoid
-        // colliding with the parent __INDEX__ substitution) then __INDEX__
-        // for legacy main-service templates.
-        var html    = tpl.replace(/__QINDEX__/g, idx).replace(/__INDEX__/g, idx);
+        var service  = String($(this).data('service') || '');
+        var idx      = nextQuestionIndex(service);
+        var csMatch  = service.match(/^cs(\d+)$/);
+        var tpl, html;
+        if (csMatch) {
+            // Shared template for all custom services. Replace __CSIDX__ with
+            // this service's real cs index, then __QINDEX__ with the question
+            // index. We never emit a per-row <script> template for custom
+            // services (nested templates break the outer custom-service-row
+            // template's HTML).
+            tpl  = $('#ec-question-row-template-cs').html() || '';
+            html = tpl.replace(/__CSIDX__/g, csMatch[1]).replace(/__QINDEX__/g, idx);
+        } else {
+            // Main services (interior/exterior/cabinet) — one template per service.
+            tpl  = $('#ec-question-row-template-' + service).html() || '';
+            html = tpl.replace(/__QINDEX__/g, idx).replace(/__INDEX__/g, idx);
+        }
         $('.ec-questions-table[data-service="' + service + '"] tbody').append(html);
     });
 

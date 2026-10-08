@@ -214,11 +214,27 @@ if ( ! function_exists( 'ec_render_custom_service_questions_admin' ) ) {
         <p style="margin-top:10px">
             <button type="button" class="button button-secondary ec-add-question" data-service="<?php echo esc_attr( $table_key ); ?>">+ Add Question</button>
         </p>
+        <?php
+        // NOTE: no per-row <script type="text/template"> here. Nested <script>
+        // template tags corrupt their parent template (the first </script>
+        // closes the outer one, spilling content into other tabs). A single
+        // shared template is emitted once at the custom-services tab level
+        // and parameterized with __CSIDX__/__QINDEX__ at add-time.
+    }
+}
 
-        <script type="text/template" id="ec-question-row-template-<?php echo esc_attr( $table_key ); ?>">
-            <?php // __QINDEX__ (not __INDEX__) so a parent custom-service template's
-                  // __INDEX__ → real-cs-idx replacement doesn't eat the question placeholder.
-                  ec_render_question_row( $table_key, '__QINDEX__', [
+/**
+ * Shared question-row template used for all Custom Service rows.
+ * Emitted ONCE at the custom-services tab level. Uses __CSIDX__ for the
+ * custom-service index and __QINDEX__ for the question index. The
+ * add-question handler in admin.js substitutes both at insert time.
+ */
+if ( ! function_exists( 'ec_render_custom_service_question_template' ) ) {
+    function ec_render_custom_service_question_template() {
+        $name_base = 'ec_settings[custom_services][__CSIDX__][custom_questions]';
+        ?>
+        <script type="text/template" id="ec-question-row-template-cs">
+            <?php ec_render_question_row( 'cs__CSIDX__', '__QINDEX__', [
                 'enabled' => 1, 'slug' => '', 'label' => '', 'type' => 'yesno',
                 'yes_value' => 0, 'no_value' => 0, 'op' => 'add', 'unit_value' => 0,
             ], $name_base ); ?>
@@ -856,6 +872,8 @@ if ( ! function_exists( 'ec_render_question_row' ) ) {
                     'price_per_sqft' => 0, 'range_pct' => 25, 'custom_questions' => [],
                 ] ); ?>
             </script>
+
+            <?php ec_render_custom_service_question_template(); ?>
 
             <p class="description" style="margin-top:20px;color:#666">
                 <strong>Tip:</strong> Slug is auto-generated from the label if left blank. It's used internally for tracking — keep it letters, numbers, and dashes only.
