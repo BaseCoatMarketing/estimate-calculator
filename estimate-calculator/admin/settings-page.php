@@ -146,14 +146,10 @@ if ( ! function_exists( 'ec_render_custom_service_row' ) ) {
                             <button type="button" class="button button-small ec-add-service-condition" data-service-index="<?php echo (int) $i; ?>">+ Add Condition</button>
                         </p>
 
-                        <script type="text/template" class="ec-service-condition-row-template" data-service-index="<?php echo (int) $i; ?>">
-                            <tr class="ec-service-condition-row">
-                                <td><input type="text" name="<?php echo esc_attr( $name_base ); ?>[conditions][__INDEX__][label]" value="" placeholder="e.g. Brand New" style="width:100%" /></td>
-                                <td><input type="text" name="<?php echo esc_attr( $name_base ); ?>[conditions][__INDEX__][slug]" value="" placeholder="auto" style="width:100%;font-size:11px;color:#666" /></td>
-                                <td><input type="number" step="0.01" min="0" name="<?php echo esc_attr( $name_base ); ?>[conditions][__INDEX__][multiplier]" value="1.0" style="width:90px" /></td>
-                                <td><button type="button" class="button ec-remove-service-condition">Remove</button></td>
-                            </tr>
-                        </script>
+                        <?php // NOTE: condition-row template is emitted ONCE at the
+                              // tab level — nesting a <script type="text/template">
+                              // inside the outer ec-custom-service-row-template
+                              // breaks that template at the first </script>. ?>
                     </div>
                     <p class="description" style="margin:8px 0 0;font-size:11px">Add, rename, edit or remove condition tiers. Slug is auto-generated from the label if blank. When the toggle above is off, the dropdown won't appear on the front end.</p>
                 </details>
@@ -874,6 +870,16 @@ if ( ! function_exists( 'ec_render_question_row' ) ) {
             </script>
 
             <?php ec_render_custom_service_question_template(); ?>
+
+            <script type="text/template" id="ec-service-condition-row-template">
+                <?php $cond_name = 'ec_settings[custom_services][__CSIDX__]'; ?>
+                <tr class="ec-service-condition-row">
+                    <td><input type="text" name="<?php echo esc_attr( $cond_name ); ?>[conditions][__INDEX__][label]" value="" placeholder="e.g. Brand New" style="width:100%" /></td>
+                    <td><input type="text" name="<?php echo esc_attr( $cond_name ); ?>[conditions][__INDEX__][slug]" value="" placeholder="auto" style="width:100%;font-size:11px;color:#666" /></td>
+                    <td><input type="number" step="0.01" min="0" name="<?php echo esc_attr( $cond_name ); ?>[conditions][__INDEX__][multiplier]" value="1.0" style="width:90px" /></td>
+                    <td><button type="button" class="button ec-remove-service-condition">Remove</button></td>
+                </tr>
+            </script>
 
             <p class="description" style="margin-top:20px;color:#666">
                 <strong>Tip:</strong> Slug is auto-generated from the label if left blank. It's used internally for tracking — keep it letters, numbers, and dashes only.

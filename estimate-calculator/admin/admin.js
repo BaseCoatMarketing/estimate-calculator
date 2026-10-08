@@ -296,11 +296,12 @@
     // Service conditions repeater: add row
     $(document).on('click', '.ec-add-service-condition', function(e) {
         e.preventDefault();
-        var serviceIndex = $(this).data('service-index');
-        var $tpl = $('.ec-service-condition-row-template[data-service-index="' + serviceIndex + '"]');
+        var serviceIndex = String($(this).data('service-index'));
+        // Shared template at the tab level — parameterized with __CSIDX__.
+        var $tpl   = $('#ec-service-condition-row-template');
         var $table = $(this).closest('.ec-condition-inputs').find('.ec-service-conditions-table tbody');
 
-        // Compute next index by scanning existing names
+        // Compute next question index by scanning existing names
         var max = -1;
         $table.find('input').each(function() {
             var re = new RegExp('\\[custom_services\\]\\[' + serviceIndex + '\\]\\[conditions\\]\\[(\\d+)\\]');
@@ -312,7 +313,7 @@
         });
         var idx = max + 1;
 
-        var html = $tpl.html().replace(/__INDEX__/g, idx);
+        var html = $tpl.html().replace(/__CSIDX__/g, serviceIndex).replace(/__INDEX__/g, idx);
         $table.append(html);
     });
 
