@@ -3,7 +3,7 @@
  * Plugin Name: Estimate Calculator
  * Plugin URI:  https://basecoatmarketing.com
  * Description: Multi-service estimate calculator with GoHighLevel integration, calendar booking, and tracking pixels. Customizable per client.
- * Version:     1.18.0
+ * Version:     1.19.0
  * Author:      Basecoat Marketing
  * License:     GPL-2.0+
  * Text Domain: estimate-calc
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'EC_VERSION', '1.18.0' );
+define( 'EC_VERSION', '1.19.0' );
 define( 'EC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'EC_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 

@@ -159,6 +159,70 @@ if ( ! function_exists( 'ec_render_custom_service_row' ) ) {
                 </details>
             </td>
         </tr>
+        <tr class="ec-custom-service-qrow">
+            <td></td>
+            <td colspan="5">
+                <details<?php echo ! empty( $cs['custom_questions'] ) ? ' open' : ''; ?> style="background:#fafafa;padding:8px 12px;border:1px solid #e2e4e7;border-radius:4px">
+                    <summary style="cursor:pointer;font-weight:600;color:#0073aa">Custom Questions</summary>
+                    <p class="description" style="margin:8px 0 10px;font-size:11px">
+                        Add any number of questions that collect extra info for this service. <em>Yes/No</em> can add a flat amount or multiply the subtotal; <em>Number</em> multiplies the user's count by your per-unit value; <em>Select</em> is GHL-only (no price impact); <em>Percent Select</em> adjusts the final total by each option's percent.
+                    </p>
+                    <?php ec_render_custom_service_questions_admin( $i, $cs['custom_questions'] ?? [] ); ?>
+                </details>
+            </td>
+        </tr>
+        <?php
+    }
+}
+
+/**
+ * Render the Custom Questions repeater for a single Custom Service row.
+ * Mirrors ec_render_custom_questions_admin but writes names under
+ * ec_settings[custom_services][{cs_index}][custom_questions][{q_index}].
+ */
+if ( ! function_exists( 'ec_render_custom_service_questions_admin' ) ) {
+    function ec_render_custom_service_questions_admin( $cs_index, $questions ) {
+        // $cs_index may be the literal string __INDEX__ when rendered inside
+        // the new-row template — keep it as-is so JS can rewrite it.
+        $idx_str     = (string) $cs_index;
+        $name_base   = 'ec_settings[custom_services][' . $idx_str . '][custom_questions]';
+        $table_key   = 'cs' . $idx_str;
+        // Build a regex-safe form of the pattern. __INDEX__ is swapped to \d+
+        // in the template so the index-finder matches the real injected index.
+        $idx_pattern = $idx_str === '__INDEX__' ? '\\d+' : preg_quote( $idx_str, '/' );
+        $pattern     = '\\[custom_services\\]\\[' . $idx_pattern . '\\]\\[custom_questions\\]\\[(\\d+)\\]';
+        $list        = is_array( $questions ) ? $questions : [];
+        ?>
+        <table class="widefat ec-questions-table" data-service="<?php echo esc_attr( $table_key ); ?>" data-pattern="<?php echo esc_attr( $pattern ); ?>" style="margin-top:4px">
+            <thead>
+                <tr>
+                    <th style="width:70px">Enabled</th>
+                    <th>Question Label</th>
+                    <th style="width:120px">Type</th>
+                    <th>Values</th>
+                    <th style="width:90px">Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php
+            foreach ( $list as $i => $q ) {
+                ec_render_question_row( $table_key, $i, $q, $name_base );
+            }
+            ?>
+            </tbody>
+        </table>
+        <p style="margin-top:10px">
+            <button type="button" class="button button-secondary ec-add-question" data-service="<?php echo esc_attr( $table_key ); ?>">+ Add Question</button>
+        </p>
+
+        <script type="text/template" id="ec-question-row-template-<?php echo esc_attr( $table_key ); ?>">
+            <?php // __QINDEX__ (not __INDEX__) so a parent custom-service template's
+                  // __INDEX__ → real-cs-idx replacement doesn't eat the question placeholder.
+                  ec_render_question_row( $table_key, '__QINDEX__', [
+                'enabled' => 1, 'slug' => '', 'label' => '', 'type' => 'yesno',
+                'yes_value' => 0, 'no_value' => 0, 'op' => 'add', 'unit_value' => 0,
+            ], $name_base ); ?>
+        </script>
         <?php
     }
 }
@@ -181,7 +245,7 @@ if ( ! function_exists( 'ec_render_custom_questions_admin' ) ) {
             </th>
         </tr>
         <tr><td colspan="2">
-            <table class="widefat ec-questions-table" data-service="<?php echo esc_attr( $service ); ?>">
+            <table class="widefat ec-questions-table" data-service="<?php echo esc_attr( $service ); ?>" data-pattern="\[<?php echo esc_attr( $service ); ?>_custom_questions\]\[(\d+)\]">
                 <thead>
                     <tr>
                         <th style="width:70px">Enabled</th>
@@ -220,8 +284,10 @@ if ( ! function_exists( 'ec_render_custom_questions_admin' ) ) {
  * Render a single question row.
  */
 if ( ! function_exists( 'ec_render_question_row' ) ) {
-    function ec_render_question_row( $service, $i, $q ) {
-        $name_base = 'ec_settings[' . $service . '_custom_questions][' . $i . ']';
+    function ec_render_question_row( $service, $i, $q, $name_base_override = null ) {
+        $name_base = $name_base_override !== null
+            ? $name_base_override . '[' . $i . ']'
+            : 'ec_settings[' . $service . '_custom_questions][' . $i . ']';
         $type      = $q['type'] ?? 'yesno';
         $enabled   = ! empty( $q['enabled'] );
         ?>

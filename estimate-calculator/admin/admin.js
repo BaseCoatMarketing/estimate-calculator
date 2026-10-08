@@ -342,12 +342,15 @@
     /*  Custom Questions repeater (per service)                        */
     /* ============================================================== */
     function nextQuestionIndex(service) {
-        var $table = $('.ec-questions-table[data-service="' + service + '"]');
-        var max = -1;
+        var $table   = $('.ec-questions-table[data-service="' + service + '"]');
+        // Pattern is supplied by the table (data-pattern); fall back to the
+        // legacy "{service}_custom_questions" form for safety.
+        var pattern  = $table.attr('data-pattern') || ('\\[' + service + '_custom_questions\\]\\[(\\d+)\\]');
+        var re       = new RegExp(pattern);
+        var max      = -1;
         $table.find('tbody tr').each(function() {
             $(this).find('input, select').each(function() {
                 var name = $(this).attr('name') || '';
-                var re = new RegExp('\\[' + service + '_custom_questions\\]\\[(\\d+)\\]');
                 var m = name.match(re);
                 if (m) {
                     var n = parseInt(m[1], 10);
@@ -363,7 +366,10 @@
         var service = $(this).data('service');
         var tpl     = $('#ec-question-row-template-' + service).html();
         var idx     = nextQuestionIndex(service);
-        var html    = tpl.replace(/__INDEX__/g, idx);
+        // Replace __QINDEX__ first (custom-service tables use this to avoid
+        // colliding with the parent __INDEX__ substitution) then __INDEX__
+        // for legacy main-service templates.
+        var html    = tpl.replace(/__QINDEX__/g, idx).replace(/__INDEX__/g, idx);
         $('.ec-questions-table[data-service="' + service + '"] tbody').append(html);
     });
 
