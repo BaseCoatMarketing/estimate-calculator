@@ -22,11 +22,11 @@
 // ===================== CONFIG =====================
 
 // GHL Private Integration credentials
-$GHL_API_KEY      = 'pit-244fad31-65e8-4087-96ac-6e22235e5664';
-$GHL_LOCATION_ID  = 'kg307mH5QHxmKEkW9erN';
+$GHL_API_KEY      = 'YOUR_PRIVATE_INTEGRATION_ACCESS_TOKEN';
+$GHL_LOCATION_ID  = 'YOUR_LOCATION_ID';
 
 // Optional — if set, an opportunity will be created in this pipeline/stage
-$GHL_PIPELINE_ID  = 'Bqau5D8uEyFeKQi06Dee';
+$GHL_PIPELINE_ID  = 'YOUR_PIPELINE_ID';
 $GHL_STAGE_ID     = 'New Lead';
 
 // Allowed origins (CORS). Set to '*' for any site, or list specific ones.
