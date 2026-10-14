@@ -335,6 +335,7 @@ class EC_REST {
                 'pricePerSqft'        => (float) ( $svc['price_per_sqft']    ?? 0 ),
                 'priceMultiplier'     => (float) ( $svc['price_multiplier']  ?? 0 ),
                 'fieldLabel'          => $svc['field_label'] ?? '',
+                'conditionLabel'      => $svc['condition_label'] ?? '',
                 'rangePct'            => (float) ( $svc['range_pct'] ?? 25 ),
                 'conditionEnabled'    => ! empty( $svc['condition_enabled'] ),
                 'conditions'          => $svc['conditions']       ?? [],

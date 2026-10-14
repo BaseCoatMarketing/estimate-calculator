@@ -520,6 +520,7 @@ class EC_Settings {
                 'price_per_sqft'        => isset( $row['price_per_sqft'] )   ? (float) $row['price_per_sqft']   : 0,
                 'price_multiplier'      => isset( $row['price_multiplier'] ) ? (float) $row['price_multiplier'] : 0,
                 'field_label'           => isset( $row['field_label'] ) ? trim( wp_strip_all_tags( (string) $row['field_label'] ) ) : '',
+                'condition_label'       => isset( $row['condition_label'] ) ? trim( wp_strip_all_tags( (string) $row['condition_label'] ) ) : '',
 
                 'range_pct'             => isset( $row['range_pct'] ) ? (float) $row['range_pct'] : 25,
 

@@ -358,8 +358,9 @@ $ec_btn_text  = EC_Avada::resolve( $settings['button_text'],     '#ffffff' );
         }
         ?>
         <?php if ( $cs_cond_on && ! empty( $cs_conditions ) ) : ?>
+        <?php $cs_cond_title = ! empty( $cs['condition_label'] ) ? $cs['condition_label'] : 'Current Condition'; ?>
         <div class="ec-field">
-            <label>Current Condition <span class="ec-req">*</span></label>
+            <label><?php echo esc_html( $cs_cond_title ); ?> <span class="ec-req">*</span></label>
             <select name="condition" required data-required-msg="Current condition is required.">
                 <option value="" disabled selected>Select condition</option>
                 <?php foreach ( $cs_conditions as $c ) : ?>

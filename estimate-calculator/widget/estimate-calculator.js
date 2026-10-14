@@ -821,9 +821,10 @@
                 for (var ci3 = 0; ci3 < condList.length; ci3++) {
                     opts += '<option value="' + condList[ci3].slug + '">' + condList[ci3].label + '</option>';
                 }
+                var condTitle = (sv.conditionLabel && String(sv.conditionLabel).trim()) ? String(sv.conditionLabel) : 'Current Condition';
                 conditionField =
-                    '<div class="ec-field"><label>Current Condition <span class="ec-req">*</span></label>' +
-                    '<select name="condition" required data-required-msg="Current condition is required.">' +
+                    '<div class="ec-field"><label>' + condTitle + ' <span class="ec-req">*</span></label>' +
+                    '<select name="condition" required data-required-msg="' + condTitle + ' is required.">' +
                     '<option value="" disabled selected>Select condition</option>' +
                     opts +
                     '</select></div>';
@@ -1674,7 +1675,7 @@
     }
 
     var EstimateCalculator = {
-        version: '1.12.0',
+        version: '1.13.0',
         instances: [],
 
         init: function(userConfig) {

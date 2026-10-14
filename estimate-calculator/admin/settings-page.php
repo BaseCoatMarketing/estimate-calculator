@@ -121,6 +121,11 @@ if ( ! function_exists( 'ec_render_custom_service_row' ) ) {
                         <input type="checkbox" class="ec-toggle-condition" name="<?php echo esc_attr( $name_base ); ?>[condition_enabled]" value="1" <?php checked( $cond_on ); ?> />
                         Apply condition multiplier (uncheck to hide the dropdown on the front end)
                     </label>
+                    <label style="display:block;margin:6px 0 10px;font-size:12px">
+                        <strong>Dropdown title shown to user:</strong>
+                        <input type="text" name="<?php echo esc_attr( $name_base ); ?>[condition_label]" value="<?php echo esc_attr( $cs['condition_label'] ?? '' ); ?>" placeholder="Current Condition" style="width:280px;margin-left:6px" />
+                        <span class="description" style="font-size:11px;color:#666">&nbsp;Leave blank to use &ldquo;Current Condition&rdquo;.</span>
+                    </label>
                     <p class="description" style="margin:4px 0 8px;font-size:11px">
                         <strong>Everything in this table is editable.</strong> Change the <em>Label</em> to whatever you want users to see in the dropdown (e.g. &ldquo;Brand New&rdquo;, &ldquo;Needs Prep&rdquo;). Leave the <em>Slug</em> blank to auto-generate from the label. Use <em>+ Add Condition</em> or <em>Remove</em> to change how many tiers there are.
                     </p>
