@@ -115,18 +115,26 @@ if ( ! function_exists( 'ec_render_custom_service_row' ) ) {
         <tr class="ec-custom-service-condrow">
             <td></td>
             <td colspan="5">
-                <details<?php echo $cond_on ? ' open' : ''; ?> style="background:#fafafa;padding:8px 12px;border:1px solid #e2e4e7;border-radius:4px">
-                    <summary style="cursor:pointer;font-weight:600;color:#0073aa">Condition Multipliers (4 tiers)</summary>
+                <details open style="background:#fafafa;padding:8px 12px;border:1px solid #e2e4e7;border-radius:4px">
+                    <summary style="cursor:pointer;font-weight:600;color:#0073aa">Condition Tiers &mdash; edit labels, slugs &amp; multipliers</summary>
                     <label style="display:block;margin:10px 0 6px;font-size:12px">
                         <input type="checkbox" class="ec-toggle-condition" name="<?php echo esc_attr( $name_base ); ?>[condition_enabled]" value="1" <?php checked( $cond_on ); ?> />
-                        Apply condition multiplier
+                        Apply condition multiplier (uncheck to hide the dropdown on the front end)
                     </label>
+                    <label style="display:block;margin:6px 0 10px;font-size:12px">
+                        <strong>Dropdown title shown to user:</strong>
+                        <input type="text" name="<?php echo esc_attr( $name_base ); ?>[condition_label]" value="<?php echo esc_attr( $cs['condition_label'] ?? '' ); ?>" placeholder="Current Condition" style="width:280px;margin-left:6px" />
+                        <span class="description" style="font-size:11px;color:#666">&nbsp;Leave blank to use &ldquo;Current Condition&rdquo;.</span>
+                    </label>
+                    <p class="description" style="margin:4px 0 8px;font-size:11px">
+                        <strong>Everything in this table is editable.</strong> Change the <em>Label</em> to whatever you want users to see in the dropdown (e.g. &ldquo;Brand New&rdquo;, &ldquo;Needs Prep&rdquo;). Leave the <em>Slug</em> blank to auto-generate from the label. Use <em>+ Add Condition</em> or <em>Remove</em> to change how many tiers there are.
+                    </p>
                     <div class="ec-condition-inputs" style="<?php echo $cond_on ? '' : 'opacity:0.45'; ?>">
                         <table class="widefat ec-service-conditions-table" style="margin-top:4px">
                             <thead>
                                 <tr>
-                                    <th>Label (shown to user)</th>
-                                    <th style="width:160px">Slug</th>
+                                    <th>Label (shown to the user &mdash; editable)</th>
+                                    <th style="width:160px">Slug (internal)</th>
                                     <th style="width:120px">Multiplier</th>
                                     <th style="width:90px">Remove</th>
                                 </tr>
@@ -151,7 +159,6 @@ if ( ! function_exists( 'ec_render_custom_service_row' ) ) {
                               // inside the outer ec-custom-service-row-template
                               // breaks that template at the first </script>. ?>
                     </div>
-                    <p class="description" style="margin:8px 0 0;font-size:11px">Add, rename, edit or remove condition tiers. Slug is auto-generated from the label if blank. When the toggle above is off, the dropdown won't appear on the front end.</p>
                 </details>
             </td>
         </tr>
